@@ -1,0 +1,33 @@
+body {
+    background-image: url("../images/background.jpg");
+}
+
+img {
+    width: 60%;
+    height: 50%;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+}
+
+.container {
+    background: #fa8d4d;
+    text-align: center;
+    color: white;
+    font-family: 'Baloo Paaji', cursive;
+    font-size: 50px;
+}
+
+button {
+    background: #fa8d4d;
+    border-style: none;
+    color: white;
+    
+}
+
+button:hover, button:visited {
+    background: green;
+    border-style: outset;
+    border-color: darkgreen;
+}
+
