@@ -25,9 +25,12 @@ button {
     
 }
 
-button:hover, button:visited {
+.choice:hover {
     background: green;
     border-style: outset;
     border-color: darkgreen;
+    border: 1px;
+    cursor: pointer;
+    
 }
 
