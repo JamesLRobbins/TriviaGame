@@ -1,4 +1,5 @@
 //Questions/Answers
+
 var trivia = [
     {
         question: "This voice actor not only voiced Doug Funnie and Roger Klotz on &quot;Doug&quot;, but Ren & Stimpy as well.",
@@ -66,6 +67,7 @@ var trivia = [
 ]
 
 //Variables
+
 var counter = 30;
 var currentQuestion = 0;
 var score = 0;
@@ -79,7 +81,6 @@ function nextQuestion() {
 
     var quizOver = (trivia.length - 1) === currentQuestion;
     if (quizOver) {
-        console.log("Game over!")
         gameEnd();
         clearInterval(timer)
     } else {
@@ -124,6 +125,7 @@ function loadQuestion() {
 }
 
 function loadChoices(choices) {
+    $("#timer").show();
     var result = '';
 
     for (var i = 0; i < choices.length; i++) {
@@ -140,16 +142,14 @@ $(document).on("click", ".choice", function() {
     var correctAnswer = trivia[currentQuestion].answer;
     if (correctAnswer === userChoice) {
         score++;
-        // setTimeout(nextQuestion, 3 * 1000);
         nextQuestion();
     } else {
         lost++;
-        // loadImages("wrong")
         nextQuestion();
     }
-    console.log(userChoice)
-    console.log(correctAnswer)
 })
+
+// End Screen
 
 function gameEnd() {
     var result =`
@@ -159,7 +159,7 @@ function gameEnd() {
         <button id="reset">Try Again</button>
     `;
     clearInterval(timer)
-    // $("#timer").remove();
+    $("#timer").hide();
     $("#game").html(result);
         
 }
