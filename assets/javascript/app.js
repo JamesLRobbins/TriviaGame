@@ -1,129 +1,184 @@
-$( document ).ready(function() {
-    question1();
-});
+//Questions/Answers
+var trivia = [
+    {
+        question: "This voice actor not only voiced Doug Funnie and Roger Klotz on &quot;Doug&quot;, but Ren & Stimpy as well.",
+        choices:  ["Dan Castellaneta", "Billy West", "John DiMaggio", "Michael Bell"],
+        answer: "Billy West"
+    },
 
-    //Variables
-var correct = 0;
-var incorrect = 0;
+    {
+        question:  "On season 4, episode 9 of &quot;Are You Afraid of the Dark?&quot;, a young artist named Ethan who dreams of being a comic book artist has to stop an evil jester from turning everyone into uncontrollable, drooling, laughing idiots. What is the title of this episode?",
+        choices:  ["The Tale of the Captured Souls", "The Tale of Laughing in the Dark", "The Tale of The Crimson Clown", "The Tale of the Ghastly Grinner"],
+        answer:  "The Tale of the Ghastly Grinner"
+    },
+
+    {
+        question:  "On the show &quot;CatDog&quot;, the voice actor who played Dog also went and voiced this popular undersea character.",
+        choices:  ["Spongebob Squarepants", "Patrick Star", "Squidward", "Mr. Krabbs"],
+        answer: "Spongebob Squarepants"
+    },
+
+    {
+        question: "The show &quot;The Adventures of Pete & Pete&quot;, featured the strongest man in the world.  What was his name?",
+        choices: ["Stewart", "Artie", "Wayne", "Teddy"],
+        answer: "Artie"
+    },
+
+    {
+
+        question: "What was the favored drink that Norbert and Daggit enjoyed on the show &quot;Angry Beavers&quot;?",
+        choices: ["YooHoo", "Yahoo", "Kool-Aid", "Hi-C"],
+        answer: "Yahoo"
+
+    },
+
+    {
+
+        question: "On season 1 episode 2 of Salute Your Shorts, the character Bobby tells the story about a ghostly dream-invading custodian named Zeke the Plumber.  What body part is Zeke missing?",
+        choices: ["Right eye", "Left Arm", "Right Leg", "Nose"],
+        answer: "Nose"
+
+    },    
+
+    {
+        question: "What was the name of the comic book store that Rocko worked at on &quot;Rocko&apos;s Modern Life&quot;?",
+        choices: ["Kind of a lot O Comics", "Sort of a lot O Comics", "Conglom-O", "Definitely a lot O Comics"],
+        answer:  "Kind of a lot O Comics"
+    },
+
+    {
+        question: "Devo frontman Mark Mothersbaugh wrote the theme for the &quot;Rugrats&quot; and was also the primary inspiration behind the design of what character?",
+        choices: ["Tommy Pickles", "Chuckie Finster", "Stu Pickles", "Chas Finster"],
+        answer: "Chuckie Finster"
+    },
+
+    {
+        question: "SNICK was a two hour programming block that aired on Saturday nights.  What was the original line-up of shows?",
+        choices: ["Clarissa Explains It All; Roundhouse; The Ren & Stimpy Show; Are You Afraid Of The Dark?", "All That; Roundhouse; The Ren & Stimpy Show; Are You Afraid Of The Dark?", "Kenan & Kel; All That; The Mystery Files of Shelby Woo; KaBlam!", "Doug; Rugrats; Rocko’s Modern Life; The Ren & Stimpy Show"],
+        answer: "Clarissa Explains It All; Roundhouse; The Ren & Stimpy Show; Are You Afraid Of The Dark?"
+    },
+
+    {
+        question: "On what show was the titular character involved in an accident where they were drenched in a top-secret chemical called GC-161 that ends up granting special abilities such as telekinesis, shooting electricity from their fingers, as well as the ability to dissolve into a mobile puddle of water.",
+        choices: ["Clarissa Explains It All", "The Mysterious Files of Shelby Woo", "The Journey of Allen Strange", "The Secret World of Alex Mack"],
+        answer: "The Secret World of Alex Mack"
+    }
+]
+
+//Variables
+var counter = 30;
+var currentQuestion = 0;
+var score = 0;
+var lost = 0;
 var misses = 0;
-var correctAns;
-var incorrectAns;
-var count = 30;
-var countdown = setInterval(function() {
-    count--;
-    document.getElementById("timer").textContent = count
-    if(count <= 0) {
-        clearInterval(countdown)
+var timer;
+
+//Next Question
+
+function nextQuestion() {
+
+    var quizOver = (trivia.length - 1) === currentQuestion;
+    if (quizOver) {
+        console.log("Game over!")
+        gameEnd();
+        clearInterval(timer)
+    } else {
+    currentQuestion++;
+    loadQuestion();
     }
-
-}, 1000)
-var questions = ["This voice actor not only voiced Doug Funnie and Roger Klotz on &quot;Doug&quot;, but Ren & Stimpy as well.", "On season 4, episode 9 of &quot;Are you afraid of the dark?&quot;, a young artist named Ethan who dreams of being a comic book artist has to stop an evil jester from turning everyone into uncontrollable, drooling, laughing idiots. What is the title of this episode?", "On the show CatDog, the voice actor who played Dog also went and voiced this popular undersea character.", "The show “The Adventures of Pete & Pete”, featured the strongest man in the world.  What was his name?", "What was the favored drink that Norbert and Daggit enjoyed on the show “Angry Beavers”?", "On season 1 episode 2 of Salute Your Shorts, the character Bobby tells the story about a ghostly dream-invading custodian named Zeke the Plumber.  What body part is Zeke missing?", "What was the name of the comic book store that Rocko worked at on Rocko’s Modern Life?", "Devo frontman Mark Mothersbaugh wrote the theme for the “Rugrats” and was also the primary inspiration behind the design of what character?", " SNICK was a two hour programming block that aired on Saturday nights.  What was the original line-up of shows?", "On what show was the titular character involved in an accident where they were drenched in a top-secret chemical called GC-161 that ends up granted special abilities such as telekinesis, shooting electricity from their fingers, as well as the ability to dissolve into a mobile puddle of water."]
-var answers = [["Dan Castellaneta", "Billy West", "John DiMaggio", "Michael Bell"], ["The Tale of the Captured Souls", "The tale of Laughing in the Dark", "The Tale of The Crimson Clown", "The Tale of the Ghastly Grinner"], ["Spongebob Squarepants", "Patrick Star", "Squidward", "Mr. Krabbs"], ["Artie", "Stewart", "Wayne", "Teddy"], ["YooHoo", "Yahoo", "Kool-Aid", "Hi-C"], ["Right eye", "Left Arm", "RIght Leg", "Nose"], ["Kind of a lot O’ Comics", "Sort of a lot O’ Comics", "Conglom-O", "Definitely a lot O’ Comics"], ["Tommy Pickles", "Chuckie Finster", "Stu Pickles", "Chas Finster"], ["Clarissa Explains it all; Roundhouse; The Ren & Stimpy Show; Are you afraid of the dark?", "All That; Roundhouse; The Ren & Stimpy Show; Are you afraid of the dark?", "Kenan & Kel; All That; The Mystery Files of Shelby Woo; KaBlam!", "Doug; Rugrats; Rocko’s Modern Life; The Ren & Stimpy Show"], ["Clarissa Explains it all", "The Mysterious Files of Shelby Woo", "The Journey of Allen Strange", "The Secret World of Alex Mack "]]
-var correctAnswers = [1, 3, 0, 0, 1, 3, 0, 1, 0, 3];
-
-function question1(){
-$("span").html(count);
-$(".question").html(questions[0])
-$("#answer1").html("A. " + answers[0][0]);
-$("#answer2").html("B. " + answers[0][1])
-$("#answer3").html("C. " + answers[0][2])
-$("#answer4").html("D. " + answers[0][3])
+}
 
 
-setTimeout(function(){ 
+//Timer
+
+function timeUp() {
+    clearInterval(timer);
     misses++
-    $(".question").html("Times Up!")
-    $("#answer1").html("");
-    $("#answer2").html("");
-    $("#answer3").html("");
-    $("#answer4").html("");
-    setInterval(function() {
-        question2();
-    }, 3000)
-    }, 30000);
-    
+    nextQuestion();
+}
 
+function countDown() {
+    counter--;
 
-$("#answer1", "#answer2", "#answer3", "#answer4").on("click", function() {
-    if (answers[0][1] === correctAnswers[0]) {
-        correct++;
-        alert("Correct!")
+    $("#timer").html('Time Remaining: ' + counter)
+
+    if (counter === 0) {
+        timeUp();
     }
-    clearInterval(countdown)
-    setInterval(function() {
+}
+
+//Display choices and questions
+
+function loadQuestion() {
+    counter = 30;
+    timer = setInterval(countDown, 1000);
+
+    var question = trivia[currentQuestion].question; // 
+    var choices = trivia[currentQuestion].choices; // 
+
+    $('#timer').html('Time Remaining: ' + counter);
+    $('#game').html(`
+        <h3>${question}</h3>
+        ${loadChoices(choices)}
+    `);
+}
+
+function loadChoices(choices) {
+    var result = '';
+
+    for (var i = 0; i < choices.length; i++) {
+        result += `<p class="choice" data-answer="${choices[i]}">${choices[i]}</p>`;
+    }
+
+    return result;
+}
+
+//Correct or Wrong
+$(document).on("click", ".choice", function() {
+    clearInterval(timer)
+    var userChoice = $(this).attr("data-answer");
+    var correctAnswer = trivia[currentQuestion].answer;
+    if (correctAnswer === userChoice) {
+        score++;
+        // setTimeout(nextQuestion, 3 * 1000);
         nextQuestion();
-    }, 3000)
-
-}) 
-
-
-}
-
-
-
-function question2() {
-    var count = 30;
-    var countdown = setInterval(function() {
-    count--;
-    document.getElementById("timer").textContent = count
-    if(count <= 0) {
-        clearInterval(countdown)
+    } else {
+        lost++;
+        // loadImages("wrong")
+        nextQuestion();
     }
-
-}, 1000)
-$("span").html(count);
-$(".question").html(questions[1])
-$("#answer1").html("A. The Tale of the Captured Souls")
-$("#answer2").html("B. The Tale of Laughing in the Dark")
-$("#answer3").html("C. The Tale of The Crimson Clown")
-$("#answer4").html("D. The Tale of the Ghastly Grinner")
-
-
-
-}
-
-
-//End Screen
-function gameEnd(){
-$(".question").html("Done!  Let's see how you did!");
-$("#answer1").html("Correct: " + correct);
-$("#answer2").html("Incorrect: " + incorrect);
-$("#answer3").html("Misses");
-$("#answer4").html("Start Over?");
-
-$("#answer4").on("click", function() {
-    question1();
+    console.log(userChoice)
+    console.log(correctAnswer)
 })
 
+function gameEnd() {
+    var result =`
+        <p>Questions right: ${score}</p>
+        <p>Questions wrong: ${lost}</p>
+        <p>Questions missed: ${misses}</p>
+        <button id="reset">Try Again</button>
+    `;
+    clearInterval(timer)
+    // $("#timer").remove();
+    $("#game").html(result);
+        
 }
 
-//Timer Function
-function countdown() {
-    var count = 30;
-    var countdown = setInterval(function() {
-    count--;
-    document.getElementById("timer").textContent = count
-    if(count <= 0) {
-        clearInterval(countdown)
-    }
+$(document).on("click", "#reset", function() {
+    counter = 30;
+    currentQuestion = 0;
+    score = 0;
+    lost = 0;
+    misses = 0;
+    timer = null;
 
-}, 1000)
+    loadQuestion();
+    
+})
 
-function timer() {
-    count = count - 1;
-    if (count <= 0) {
-        clearInterval(counter);
-        return;
-    }
-}
-}
 
-//Check answer
-function checkAnswer() {
-    for(var i = 0; i < answers.length; i++)
-    for (var j = 0; j < correctAnswers.length; j++)
-       if(answers.length === correctAnswers.length) {
-           alert("Correct!")
-       }
-
-    }
+$("#startgame").click(function() {
+    $("#startgame").remove();
+    $("#timer").html(counter);
+    loadQuestion();
+})

@@ -16,6 +16,9 @@ img {
     color: white;
     font-family: 'Baloo Paaji', cursive;
     font-size: 50px;
+    border-style: outset;
+    border-color: #ba5706;
+    border-width: 5px;
 }
 
 button {
@@ -25,12 +28,25 @@ button {
     
 }
 
+.choice {
+    font-size: 40px;
+}
+
 .choice:hover {
+    background: green;
+    border-style: outset;
+    border-color: darkgreen;
+    cursor: pointer;
+    
+    
+}
+
+#startgame:hover {
     background: green;
     border-style: outset;
     border-color: darkgreen;
     border: 1px;
     cursor: pointer;
-    
+
 }
 
