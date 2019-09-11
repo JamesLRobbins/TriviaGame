@@ -4,32 +4,37 @@ var trivia = [
     {
         question: "This voice actor not only voiced Doug Funnie and Roger Klotz on &quot;Doug&quot;, but Ren & Stimpy as well.",
         choices:  ["Dan Castellaneta", "Billy West", "John DiMaggio", "Michael Bell"],
-        answer: "Billy West"
+        answer: "Billy West",
+        image: "https://media.giphy.com/media/40gzsKbpaQoFi/giphy.gif"
     },
 
     {
         question:  "On season 4, episode 9 of &quot;Are You Afraid of the Dark?&quot;, a young artist named Ethan who dreams of being a comic book artist has to stop an evil jester from turning everyone into uncontrollable, drooling, laughing idiots. What is the title of this episode?",
         choices:  ["The Tale of the Captured Souls", "The Tale of Laughing in the Dark", "The Tale of The Crimson Clown", "The Tale of the Ghastly Grinner"],
-        answer:  "The Tale of the Ghastly Grinner"
+        answer:  "The Tale of the Ghastly Grinner",
+        image: "https://media.giphy.com/media/x9IqNkPg3WxXi/giphy.gif"
     },
 
     {
         question:  "On the show &quot;CatDog&quot;, the voice actor who played Dog also went and voiced this popular undersea character.",
         choices:  ["Spongebob Squarepants", "Patrick Star", "Squidward", "Mr. Krabbs"],
-        answer: "Spongebob Squarepants"
+        answer: "Spongebob Squarepants",
+        image: "https://media.giphy.com/media/SKGo6OYe24EBG/giphy.gif"
     },
 
     {
         question: "The show &quot;The Adventures of Pete & Pete&quot;, featured the strongest man in the world.  What was his name?",
         choices: ["Stewart", "Artie", "Wayne", "Teddy"],
-        answer: "Artie"
+        answer: "Artie",
+        image: "https://media.giphy.com/media/bFXkXHDepBT56/giphy.gif"
     },
 
     {
 
         question: "What was the favored drink that Norbert and Daggit enjoyed on the show &quot;Angry Beavers&quot;?",
         choices: ["YooHoo", "Yahoo", "Kool-Aid", "Hi-C"],
-        answer: "Yahoo"
+        answer: "Yahoo",
+        image: "https://media.giphy.com/media/3ohjUSjAOJiw1AVPIQ/giphy.gif"
 
     },
 
@@ -37,34 +42,41 @@ var trivia = [
 
         question: "On season 1 episode 2 of Salute Your Shorts, the character Bobby tells the story about a ghostly dream-invading custodian named Zeke the Plumber.  What body part is Zeke missing?",
         choices: ["Right eye", "Left Arm", "Right Leg", "Nose"],
-        answer: "Nose"
+        answer: "Nose",
+        image: "https://media.giphy.com/media/oNvUyhPlLsFb2/giphy.gif"
 
     },    
 
     {
         question: "What was the name of the comic book store that Rocko worked at on &quot;Rocko&apos;s Modern Life&quot;?",
         choices: ["Kind of a lot O Comics", "Sort of a lot O Comics", "Conglom-O", "Definitely a lot O Comics"],
-        answer:  "Kind of a lot O Comics"
+        answer:  "Kind of a lot O Comics",
+        image: "https://media.giphy.com/media/GYwMdftwZsdl6/giphy.gif"
     },
 
     {
         question: "Devo frontman Mark Mothersbaugh wrote the theme for the &quot;Rugrats&quot; and was also the primary inspiration behind the design of what character?",
         choices: ["Tommy Pickles", "Chuckie Finster", "Stu Pickles", "Chas Finster"],
-        answer: "Chuckie Finster"
+        answer: "Chuckie Finster",
+        image: "https://media.giphy.com/media/xUNd9A6pJZcC4RFQxG/giphy.gif"
     },
 
     {
-        question: "SNICK was a two hour programming block that aired on Saturday nights.  What was the original line-up of shows?",
-        choices: ["Clarissa Explains It All; Roundhouse; The Ren & Stimpy Show; Are You Afraid Of The Dark?", "All That; Roundhouse; The Ren & Stimpy Show; Are You Afraid Of The Dark?", "Kenan & Kel; All That; The Mystery Files of Shelby Woo; KaBlam!", "Doug; Rugrats; Rocko’s Modern Life; The Ren & Stimpy Show"],
-        answer: "Clarissa Explains It All; Roundhouse; The Ren & Stimpy Show; Are You Afraid Of The Dark?"
+        question: "In what year did SNICK first air? ",
+        choices: ["1989", "1990", "1991", "1992"],
+        answer: "1992",
+        image: "https://media.giphy.com/media/yaA7eSwRRadCU/giphy.gif"
     },
 
     {
         question: "On what show was the titular character involved in an accident where they were drenched in a top-secret chemical called GC-161 that ends up granting special abilities such as telekinesis, shooting electricity from their fingers, as well as the ability to dissolve into a mobile puddle of water.",
         choices: ["Clarissa Explains It All", "The Mysterious Files of Shelby Woo", "The Journey of Allen Strange", "The Secret World of Alex Mack"],
-        answer: "The Secret World of Alex Mack"
+        answer: "The Secret World of Alex Mack",
+        image: "https://media.giphy.com/media/aa1wrt5I3brmE/giphy.gif"
     }
 ]
+
+
 
 //Variables
 
@@ -74,6 +86,7 @@ var score = 0;
 var lost = 0;
 var misses = 0;
 var timer;
+var game = $("#game")
 
 //Next Question
 
@@ -93,9 +106,10 @@ function nextQuestion() {
 //Timer
 
 function timeUp() {
+    timeUpImg();
     clearInterval(timer);
     misses++
-    nextQuestion();
+    setTimeout(nextQuestion, 3 * 1000);
 }
 
 function countDown() {
@@ -116,7 +130,7 @@ function loadQuestion() {
 
     var question = trivia[currentQuestion].question; // 
     var choices = trivia[currentQuestion].choices; // 
-
+    $("#game").removeClass("image");
     $('#timer').html('Time Remaining: ' + counter);
     $('#game').html(`
         <h3>${question}</h3>
@@ -142,10 +156,14 @@ $(document).on("click", ".choice", function() {
     var correctAnswer = trivia[currentQuestion].answer;
     if (correctAnswer === userChoice) {
         score++;
-        nextQuestion();
+        correct();
+        setTimeout(nextQuestion, 3 * 1000);
+        // nextQuestion();
     } else {
+        incorrect();
         lost++;
-        nextQuestion();
+        
+        setTimeout(nextQuestion, 3 * 1000);
     }
 })
 
@@ -182,3 +200,25 @@ $("#startgame").click(function() {
     $("#timer").html(counter);
     loadQuestion();
 })
+
+//Incorrect
+function incorrect() {
+game.html("<h2>Wrong!</h2>  ");
+game.append("<p><h4>The Correct Answer Was: " + trivia[this.currentQuestion].answer + "!<h4><p>");
+game.addClass("image").append("<img src='" + trivia[this.currentQuestion].image + "'/>")
+
+}
+
+//Correct
+function correct() {
+game.html("<h2>Correct!</h2>  ");
+game.addClass("image").append("<img src='" + trivia[this.currentQuestion].image + "'/>")
+}
+
+//Time Up
+//Correct
+function timeUpImg() {
+    game.html("<h2>Time Up!</h2>  ");
+    game.append("<p><h4>The Correct Answer Was: " + trivia[this.currentQuestion].answer + "!<h4><p>");
+    game.addClass("image").append("<img src='" + trivia[this.currentQuestion].image + "'/>")
+    }
