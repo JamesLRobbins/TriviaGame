@@ -6,7 +6,7 @@
 
 Simpy select Start Game and try and select the right answer
 
-![TriviaGame](https://jameslrobbins.github.io/Word_Guess_Game/)
+![TriviaGame](https://jameslrobbins.github.io/Updated-Portfolio/images/Word_Guess.png)
 
 
 Deployed link: https://jameslrobbins.github.io/TriviaGame/
